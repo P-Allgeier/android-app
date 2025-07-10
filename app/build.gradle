@@ -1,7 +1,9 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
 
 android {
     compileSdk 30
@@ -14,6 +16,13 @@ android {
         versionCode 1
         versionName "0.1"
 
+        // remove this if sus
+        // externalNativeBuild {
+        //    cmake {
+        //        arguments "-DCMAKE_MAKE_PROGRAM=C:/Ninja/ninja.exe"
+        //    }
+        // }
+
         ndk {
             // abiFilters 'x86' // x86 needed for testing in the emulator
             // abiFilters 'arm64-v8a', 'armeabi-v7a' // 64bit support for release
@@ -22,6 +31,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
+                arguments "-DCMAKE_MAKE_PROGRAM=C:/Ninja/ninja.exe"
                 cppFlags ''
             }
         }
