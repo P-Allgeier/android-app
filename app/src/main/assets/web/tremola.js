@@ -747,7 +747,7 @@ function fid2display(fid) {
 
 // --- Interface to Kotlin side and local (browser) storage
 
-function backend(cmdStr) { // send this to Kotlin (or simulate in case of browser-only testing)
+function backend(cmdStr) { // send this to Kotlin (or simulate in case of browser-only testing) <------- THIS IS PROBABLY THE MAIN INTERFACE
     if (typeof Android != 'undefined') {
         Android.onFrontendRequest(cmdStr);
         return;
