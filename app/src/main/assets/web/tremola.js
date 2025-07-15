@@ -50,6 +50,14 @@ function menu_new_conversation() {
     closeOverlay();
 }
 
+// menu for adding new marketplace entries
+function menu_new_offer() {
+    document.getElementById('new_offer-overlay').style.display = 'initial';
+    document.getElementById('overlay-bg').style.display = 'initial';
+    // document.getElementById('chat_name').focus();
+    overlayIsActive = true;
+}
+
 function menu_new_contact() {
     document.getElementById('new_contact-overlay').style.display = 'initial';
     document.getElementById('overlay-bg').style.display = 'initial';
@@ -748,10 +756,12 @@ function fid2display(fid) {
 // --- Interface to Kotlin side and local (browser) storage
 
 function backend(cmdStr) { // send this to Kotlin (or simulate in case of browser-only testing) <------- THIS IS PROBABLY THE MAIN INTERFACE
-    if (typeof Android != 'undefined') {
+    if (typeof Android != 'undefined') { // this is what actually happens in the emulator
         Android.onFrontendRequest(cmdStr);
         return;
     }
+
+    // ALL THIS IS IRRELEVANT BECAUSE IT'S FOR BROWSER ONLY
     cmdStr = cmdStr.split(' ')
     if (cmdStr[0] == 'ready')
         b2f_initialize('@AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=.ed25519')
@@ -811,6 +821,7 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
 function resetTremola() { // wipes browser-side content
     tremola = {
         "chats": {},
+        "market": {},
         "contacts": {},
         "profile": {},
         "id": myId,
@@ -827,8 +838,12 @@ function resetTremola() { // wipes browser-side content
         "timeline": new Timeline()
     };
     */
-
     tremola.chats["ALL"] = {
+        "alias": "Public channel", "posts": {},
+        "members": ["ALL"], "touched": Date.now(), "lastRead": 0,
+        "timeline": new Timeline()
+    };
+    tremola.market["ALL"] = {
         "alias": "Public channel", "posts": {},
         "members": ["ALL"], "touched": Date.now(), "lastRead": 0,
         "timeline": new Timeline()

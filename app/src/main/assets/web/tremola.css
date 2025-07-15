@@ -195,6 +195,35 @@ textarea {
   margin: 3px 3px 6px 3px;
 }
 
+.market_item_button {
+  border: none;
+  text-align: left;
+  vertical-align: top;
+  height: 3em;
+  font-size: medium;
+  border-radius: 4pt;
+  box-shadow: 0 0 5px rgba(0,0,0,0.7);
+}
+
+.market_item_div {
+  padding: 0px 5px 10px 5px;
+  margin: 3px 3px 6px 3px;
+}
+
+.market_create_offer_btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 10px;
+  background-color: #51a4d2;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 40px;
+  width: 35px
+}
+
 .contact_picture {
   height: 3em;
   width: 3em;

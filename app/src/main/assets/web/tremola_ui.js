@@ -22,13 +22,17 @@ var scenarioDisplay = {
     'members': ['div:back', 'core', 'lst:members', 'div:confirm-members'],
     'settings': ['div:back', 'div:settings'],
     'kanban': ['div:qr', 'core', 'lst:kanban', 'div:footer', 'plus'],
-    'board': ['div:back', 'core', 'div:board']
+    'board': ['div:back', 'core', 'div:board'],
+    'market': ['div:qr', 'core', 'lst:offers', 'div:footer', 'plus']
 }
 
 var scenarioMenu = {
     'chats': [['Connected Devices', 'menu_connection'], // '['New conversation', 'menu_new_conversation'],' TODO reactivate when encrypted chats are implemented
-        ['Settings', 'menu_settings'],
+
         ['About', 'menu_about']],
+    'market': [['Connected Devices', 'menu_connection'],
+            ['Settings', 'menu_settings'],
+            ['About', 'menu_about']],
     'contacts': [['New contact', 'menu_new_contact'],
         ['Connected Devices', 'menu_connection'],
         ['Settings', 'menu_settings'],
@@ -100,12 +104,13 @@ function onBackPressed() {
 }
 
 function setScenario(s) {
-    // console.log('setScenario ' + s)
+    //console.log('setScenario ' + s)
     closeOverlay();
     var lst = scenarioDisplay[s];
     if (lst) {
         // if (s != 'posts' && curr_scenario != "members" && curr_scenario != 'posts') {
-        if (['chats', 'contacts', 'connex', 'kanban'].indexOf(curr_scenario) >= 0) {
+        if (['chats', 'contacts', 'connex', 'kanban', 'market'].indexOf(curr_scenario) >= 0) {
+            // this might cause a crash when tabbing out of market unless I add something analogous for it
             var cl = document.getElementById('btn:' + curr_scenario).classList;
             cl.toggle('active', false);
             cl.toggle('passive', true);
@@ -139,7 +144,7 @@ function setScenario(s) {
             prev_scenario = s;
         }
         curr_scenario = s;
-        if (['chats', 'contacts', 'connex', 'kanban'].indexOf(curr_scenario) >= 0) {
+        if (['chats', 'contacts', 'connex', 'kanban', 'market'].indexOf(curr_scenario) >= 0) {
             var cl = document.getElementById('btn:' + curr_scenario).classList;
             cl.toggle('active', true);
             cl.toggle('passive', false);
@@ -166,9 +171,13 @@ function setScenario(s) {
     }
 }
 
+// need to add Marketplace here and then also in the scenarios thing
+// The HTML line 393 calls this with the button id as argument, it passes
+// the substring(4) to ignore the 'btn:' in the beginning of the names to
+// setScenario to, well, set the scenario which decides what the context menu does
 function btnBridge(e) {
     var e = e.id, m = '';
-    if (['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex', 'btn:kanban'].indexOf(e) >= 0) {
+    if (['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex', 'btn:kanban', 'btn:market'].indexOf(e) >= 0) {
         setScenario(e.substring(4));
     }
     if (e == 'btn:menu') {
@@ -222,6 +231,7 @@ function closeOverlay() {
     document.getElementById('preview-overlay').style.display = 'none';
     document.getElementById('image-overlay').style.display = 'none';
     document.getElementById('new_chat-overlay').style.display = 'none';
+    document.getElementById('new_offer-overlay').style.display = 'none';
     document.getElementById('new_contact-overlay').style.display = 'none';
     document.getElementById('confirm_contact-overlay').style.display = 'none';
     document.getElementById('overlay-bg').style.display = 'none';
@@ -290,6 +300,8 @@ function plus_button() {
         menu_new_pub();
     } else if (curr_scenario == 'kanban') {
         menu_new_board();
+    } else if (curr_scenario == 'market') {
+        menu_new_offer();
     }
 }
 

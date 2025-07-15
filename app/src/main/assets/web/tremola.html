@@ -11,6 +11,8 @@
   <script type="text/javascript" charset="UTF-8" src="pinch-zoom.min.js"></script>
   <script type="text/javascript" charset="UTF-8" src="board.js"></script>
   <script type="text/javascript" charset="UTF-8" src="board_ui.js"></script>
+  <script type="text/javascript" charset="UTF-8" src="marketplace.js"></script>
+  <script type="text/javascript" charset="UTF-8" src="marketplace_ui.js"></script>
 </head>
 <body style="background-image: url('img/splash-as-background.jpg'); background-size: cover; background-color: white; overflow: hidden" onload="backend('ready');">
 <div style="width: 100%; height: 100%; margin: 0px">
@@ -41,6 +43,20 @@
 </div>
 
 <div id='core' style="height: calc(100% - 118px); width: 100%;">
+
+  <div id='lst:market' class=w100 style='overflow: hidden'></div>
+
+  <table id='lst:offers' style="width: 100%; display: none; table-layout: auto;">
+    <colgroup>
+      <col span="1" style="width: 2%;"/>
+      <col span="1" style="width: 10%;"/>
+      <col span="1" style="width: 76%;"/>
+      <col span="1" style="width: 10%;"/>
+      <col span="1" style="width: 2%;"/>
+    </colgroup>
+    <tr><td align=center colspan=5>-- oldest --
+    <tr><td align=center colspan=5>-- newest --
+  </table>
 
   <div id='lst:chats' class=w100 style='overflow: hidden'></div>
 
@@ -110,6 +126,18 @@
     Name of new chat:<br>&nbsp;<br>
     <input type="text" id="chat_name" minlength="1" maxlength="20" size="15" >&nbsp;
     <button class=passive onclick="create_chat();" style="border: 0pt; height: 40pt;"><font size=+1 color=green>&#x2714;</font> create</button>
+  </div>
+
+  <div id='new_offer-overlay' class='qr-overlay'>
+    <div style="display:flex; justify-content: center;align-items: center; flex-direction: column; gap: 20px">
+      <div style="text-align: center">
+        <b>Would you like to create a new offer?</b> <br>
+      </div>
+      <div>
+        <button class="market_create_offer_btn" style="background-image: url('img/checked.svg');" onclick="btn_create_offer_accept()"></button>
+        <button class="market_create_offer_btn" style="background-image: url('img/cancel.svg'); background-position-x: -1.5px;" onclick="btn_create_offer_decline()"></button>
+      </div>
+    </div>
   </div>
 
   <div id="new_contact-overlay" class="qr-overlay" style="display: none; text-align: center">
@@ -393,9 +421,10 @@
 <div id='div:footer' class=neutral style="height: 56px; align-content: center; border: 3px inset #ebf4fa /*var(--light)*/; border-radius: 2px; margin: 3px; width: calc(100% - 12px);">
 
   <table width=100% cellpadding="2pt"><tr>
-    <td width=33%><button id='btn:chats'    class="w100 flat active buttontext" onclick="btnBridge(this);" style="background-image: url('img/chat.svg');">&nbsp;<!-- font size=+3>&#x1F4E8;</font><br><font size=small>Chats</font --></button>
-    <td width=33%><button id='btn:kanban'   class="w100 flat passive buttontext" onclick="btnBridge(this);" style="background-image: url('img/kanban.svg');">&nbsp;<!-- font size=+3>&#x1F5E3;</font><br><font size=small>Board</font --></button>
-    <td width=33%><button id='btn:contacts' class="w100 flat passive buttontext" onclick="btnBridge(this);" style="background-image: url('img/contacts.svg');">&nbsp;<!-- font size=+3>&#x1F465;</font><br><font size=small>Contacts</font --></button>
+    <td width=25%><button id='btn:chats'    class="w100 flat active buttontext" onclick="btnBridge(this);" style="background-image: url('img/chat.svg');">&nbsp;<!-- font size=+3>&#x1F4E8;</font><br><font size=small>Chats</font --></button>
+    <td width=25%><button id='btn:kanban'   class="w100 flat passive buttontext" onclick="btnBridge(this);" style="background-image: url('img/kanban.svg');">&nbsp;<!-- font size=+3>&#x1F5E3;</font><br><font size=small>Board</font --></button>
+    <td width=25%><button id='btn:contacts' class="w100 flat passive buttontext" onclick="btnBridge(this);" style="background-image: url('img/contacts.svg');">&nbsp;<!-- font size=+3>&#x1F465;</font><br><font size=small>Contacts</font --></button>
+    <td width=25%><button id='btn:market' class="w100 flat passive buttontext" onclick="btnBridge(this);" style="background-image: url('img/contacts.svg');">; <!-- font size=+3>&#x1F465;</font><br><font size=small>Contacts</font --></button>
   </table>
 
 </div>

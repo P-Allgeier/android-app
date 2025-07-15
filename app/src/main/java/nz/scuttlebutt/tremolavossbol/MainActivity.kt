@@ -120,7 +120,7 @@ class MainActivity : Activity() {
         }
         */
         val webStorage = WebStorage.getInstance()
-        webView.addJavascriptInterface(wai, "Android")
+        webView.addJavascriptInterface(wai, "Android") // This is the backend interface connection whatever
         webView.settings.javaScriptEnabled = true
         webView.settings.domStorageEnabled = true
 

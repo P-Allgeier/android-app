@@ -119,7 +119,6 @@ class WebAppInterface(val act: MainActivity, val webView: WebView) {
                 //act.finishAffinity()
             }
             "add:contact" -> {
-
                 val id = args[1].substring(1,args[1].length-8)
                 Log.d("ADD", id)
                 act.tinyGoset._add_key(Base64.decode(id, Base64.NO_WRAP))
@@ -215,6 +214,17 @@ class WebAppInterface(val act: MainActivity, val webView: WebView) {
                 val bid: String? = if (args[1] != "null") args[1] else null
                 val prev: List<String>? = if (args[2] != "null") Base64.decode(args[2], Base64.NO_WRAP).decodeToString().split(",").map{ Base64.decode(it, Base64.NO_WRAP).decodeToString()} else null
                 val op: String = args[3]
+                val argsList: List<String>? = if(args[4] != "null") Base64.decode(args[4], Base64.NO_WRAP).decodeToString().split(",").map{ Base64.decode(it, Base64.NO_WRAP).decodeToString()} else null
+
+                kanban(bid, prev , op, argsList)
+            }
+            "offer" -> {
+            // Handling for Offers
+            // Because this whole sucks so bad I will simply attempt to hijack the return signal
+            // for the Kanban Boards here
+                val bid: String? = if (args[1] != "null") args[1] else null
+                val prev: List<String>? = if (args[2] != "null") Base64.decode(args[2], Base64.NO_WRAP).decodeToString().split(",").map{ Base64.decode(it, Base64.NO_WRAP).decodeToString()} else null
+                val op: String = "offer::$args[3]"
                 val argsList: List<String>? = if(args[4] != "null") Base64.decode(args[4], Base64.NO_WRAP).decodeToString().split(",").map{ Base64.decode(it, Base64.NO_WRAP).decodeToString()} else null
 
                 kanban(bid, prev , op, argsList)
@@ -332,7 +342,7 @@ class WebAppInterface(val act: MainActivity, val webView: WebView) {
 
         if (body != null) {
             Log.d("kanban", "published bytes: " + Bipf.decode(body))
-            act.tinyNode.publish_public_content(body)
+            act.tinyNode.publish_public_content(body) // Presumably this is what sends the JS section info on what to do
         }
         //val body = Bipf.encode(lst)
         //Log.d("KANBAN BIPF ENCODE", Bipf.bipf_list2JSON(Bipf.decode(body!!)!!).toString())

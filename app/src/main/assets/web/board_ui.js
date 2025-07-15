@@ -69,7 +69,8 @@ function dragDrop(ev) {
     }
 }
 
-function load_board_list() {
+// commenting any calls of this function in this file out will not stop it from loading the list, so where is this called?
+function load_board_list() { // stuff from the board list is loaded here, but when does it get added to the board list?
     document.getElementById('lst:kanban').innerHTML = '';
     if (Object.keys(tremola.board).length === 0)
         return

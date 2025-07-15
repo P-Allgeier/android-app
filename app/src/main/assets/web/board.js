@@ -230,12 +230,27 @@ function board_send_to_backend(data) {
     backend(to_backend.join(" "))
 }
 
-function kanban_new_event(e) {
+function kanban_new_event(e) { // THIS IS WHERE THE DATA COMES BACK
     // parse data
     var op = e.public[3]
+    var isOffer = false;
+
+        // I hijack the datastream that goes to the backend and add 'offer::' to the first argument if it
+        // was sent by marketplace, I then set a boolean if it had offer in it
+        if (typeof op === 'string' && op.startsWith("offer::")) {
+            isOffer = true;
+            op = op.replace("offer::", "");
+        }
+
+        // If the offer boolean was flipped, redirect to a different method for handling the input
+        if (isOffer) {
+            marketplace.handle_offer(e);
+            return;
+        }
+
     var bid = op == Operation.BOARD_CREATE ? e.header.ref : e.public[1]
     var prev = e.public[2] != "null" ? e.public[2] : [] // TODO: change to null instead of "null" if backend sends this field as Bipf.mkNone()
-    var args = e.public.length > 4 ? e.public.slice(4) : []
+    var args = e.public.length > 4 ? e.public.slice(4) : [] // can't identify the data by length since it's varied
 
     // add new entry if it is a new board
     if (!(bid in tremola.board)) {
